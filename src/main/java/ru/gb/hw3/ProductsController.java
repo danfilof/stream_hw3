@@ -2,6 +2,7 @@ package ru.gb.hw3;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -24,25 +25,25 @@ public class ProductsController {
     }
 
 
-  //localhost:8189/market/addProduct?title=Soap
+  //localhost:8189/market/products/addProduct?title=Soap
     @PostMapping("/products/addProduct")
     public List<Product> addNewProduct(@RequestParam(name = "title") String title) {
-        Long prodId = Long.valueOf(pr.getLastIndex() + 1);
+        Long prodId = Long.valueOf(pr.getLastIndex() + 2);
        Product newProd = new Product(prodId,title);
         pr.add(newProd);
         return pr.getItems();
     }
 
-    @DeleteMapping("/218392934")
+    @DeleteMapping("/products/deleteAll")
     public void deleteAll() {
-
+        pr.removeAll();
     }
 
     @DeleteMapping("/products/{id}")
     @ResponseBody
     public List<Product> deleteById(@PathVariable Long id) {
-//        Product ProdToDelete = new Product()
-//        pr.remove();
+        Product prodToDelete = pr.getItems().stream().filter(p -> p.getId().equals(id)).findFirst().orElseThrow(() -> new RuntimeException("Product not found"));
+        pr.removeById(prodToDelete);
         return pr.getItems();
     }
 }
