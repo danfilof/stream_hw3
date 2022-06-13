@@ -27,4 +27,16 @@ public class ProductsRepository {
     public void add(Product product) {
         items.add(product);
     }
+
+    public void removeById(Product product) {
+       items.remove(product);
+    }
+
+    public int getLastIndex() {
+       return items.size() - 1;
+    }
+
+    public void removeAll() {
+        items.removeAll(items);
+    }
 }
