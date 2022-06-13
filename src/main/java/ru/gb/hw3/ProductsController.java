@@ -23,13 +23,26 @@ public class ProductsController {
         return pr.getItems().stream().filter(p -> p.getId().equals(id)).findFirst().orElseThrow(() -> new RuntimeException("Product not found"));
     }
 
-    @PostMapping("/products")
-    public void addNewProduct(@RequestBody Product product) {
-        pr.add(product);
+
+  //localhost:8189/market/addProduct?title=Soap
+    @PostMapping("/products/addProduct")
+    public List<Product> addNewProduct(@RequestParam(name = "title") String title) {
+        Long prodId = Long.valueOf(pr.getLastIndex() + 1);
+       Product newProd = new Product(prodId,title);
+        pr.add(newProd);
+        return pr.getItems();
     }
 
     @DeleteMapping("/218392934")
     public void deleteAll() {
 
+    }
+
+    @DeleteMapping("/products/{id}")
+    @ResponseBody
+    public List<Product> deleteById(@PathVariable Long id) {
+//        Product ProdToDelete = new Product()
+//        pr.remove();
+        return pr.getItems();
     }
 }
